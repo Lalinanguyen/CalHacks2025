@@ -1,0 +1,160 @@
+#!/usr/bin/env python3
+"""
+Making an cool beat making project
+"""
+
+# Chord definitions - all potential chords
+CHORDS = {
+    # Major chords
+    'C': ['C', 'E', 'G'],
+    'C#': ['C#', 'F', 'G#'],
+    'Db': ['Db', 'F', 'Ab'],
+    'D': ['D', 'F#', 'A'],
+    'D#': ['D#', 'G', 'A#'],
+    'Eb': ['Eb', 'G', 'Bb'],
+    'E': ['E', 'G#', 'B'],
+    'F': ['F', 'A', 'C'],
+    'F#': ['F#', 'A#', 'C#'],
+    'Gb': ['Gb', 'Bb', 'Db'],
+    'G': ['G', 'B', 'D'],
+    'G#': ['G#', 'C', 'D#'],
+    'Ab': ['Ab', 'C', 'Eb'],
+    'A': ['A', 'C#', 'E'],
+    'A#': ['A#', 'D', 'F'],
+    'Bb': ['Bb', 'D', 'F'],
+    'B': ['B', 'D#', 'F#'],
+    
+    # Minor chords
+    'Cm': ['C', 'Eb', 'G'],
+    'C#m': ['C#', 'E', 'G#'],
+    'Dbm': ['Db', 'E', 'Ab'],
+    'Dm': ['D', 'F', 'A'],
+    'D#m': ['D#', 'F#', 'A#'],
+    'Ebm': ['Eb', 'Gb', 'Bb'],
+    'Em': ['E', 'G', 'B'],
+    'Fm': ['F', 'Ab', 'C'],
+    'F#m': ['F#', 'A', 'C#'],
+    'Gbm': ['Gb', 'A', 'Db'],
+    'Gm': ['G', 'Bb', 'D'],
+    'G#m': ['G#', 'B', 'D#'],
+    'Abm': ['Ab', 'B', 'Eb'],
+    'Am': ['A', 'C', 'E'],
+    'A#m': ['A#', 'C#', 'F'],
+    'Bbm': ['Bb', 'Db', 'F'],
+    'Bm': ['B', 'D', 'F#'],
+    
+    # 7th chords
+    'C7': ['C', 'E', 'G', 'Bb'],
+    'Cm7': ['C', 'Eb', 'G', 'Bb'],
+    'Cmaj7': ['C', 'E', 'G', 'B'],
+    'C#7': ['C#', 'F', 'G#', 'B'],
+    'C#m7': ['C#', 'E', 'G#', 'B'],
+    'C#maj7': ['C#', 'F', 'G#', 'C'],
+    'D7': ['D', 'F#', 'A', 'C'],
+    'Dm7': ['D', 'F', 'A', 'C'],
+    'Dmaj7': ['D', 'F#', 'A', 'C#'],
+    'D#7': ['D#', 'G', 'A#', 'C#'],
+    'D#m7': ['D#', 'F#', 'A#', 'C#'],
+    'D#maj7': ['D#', 'G', 'A#', 'D'],
+    'E7': ['E', 'G#', 'B', 'D'],
+    'Em7': ['E', 'G', 'B', 'D'],
+    'Emaj7': ['E', 'G#', 'B', 'D#'],
+    'F7': ['F', 'A', 'C', 'Eb'],
+    'Fm7': ['F', 'Ab', 'C', 'Eb'],
+    'Fmaj7': ['F', 'A', 'C', 'E'],
+    'F#7': ['F#', 'A#', 'C#', 'E'],
+    'F#m7': ['F#', 'A', 'C#', 'E'],
+    'F#maj7': ['F#', 'A#', 'C#', 'F'],
+    'G7': ['G', 'B', 'D', 'F'],
+    'Gm7': ['G', 'Bb', 'D', 'F'],
+    'Gmaj7': ['G', 'B', 'D', 'F#'],
+    'G#7': ['G#', 'C', 'D#', 'F#'],
+    'G#m7': ['G#', 'B', 'D#', 'F#'],
+    'G#maj7': ['G#', 'C', 'D#', 'G'],
+    'A7': ['A', 'C#', 'E', 'G'],
+    'Am7': ['A', 'C', 'E', 'G'],
+    'Amaj7': ['A', 'C#', 'E', 'G#'],
+    'A#7': ['A#', 'D', 'F', 'G#'],
+    'A#m7': ['A#', 'C#', 'F', 'G#'],
+    'A#maj7': ['A#', 'D', 'F', 'A'],
+    'B7': ['B', 'D#', 'F#', 'A'],
+    'Bm7': ['B', 'D', 'F#', 'A'],
+    'Bmaj7': ['B', 'D#', 'F#', 'A#'],
+    
+    # 9th chords
+    'C9': ['C', 'E', 'G', 'Bb', 'D'],
+    'Cm9': ['C', 'Eb', 'G', 'Bb', 'D'],
+    'Cmaj9': ['C', 'E', 'G', 'B', 'D'],
+    'D9': ['D', 'F#', 'A', 'C', 'E'],
+    'Dm9': ['D', 'F', 'A', 'C', 'E'],
+    'Dmaj9': ['D', 'F#', 'A', 'C#', 'E'],
+    'E9': ['E', 'G#', 'B', 'D', 'F#'],
+    'Em9': ['E', 'G', 'B', 'D', 'F#'],
+    'Emaj9': ['E', 'G#', 'B', 'D#', 'F#'],
+    'F9': ['F', 'A', 'C', 'Eb', 'G'],
+    'Fm9': ['F', 'Ab', 'C', 'Eb', 'G'],
+    'Fmaj9': ['F', 'A', 'C', 'E', 'G'],
+    'G9': ['G', 'B', 'D', 'F', 'A'],
+    'Gm9': ['G', 'Bb', 'D', 'F', 'A'],
+    'Gmaj9': ['G', 'B', 'D', 'F#', 'A'],
+    'A9': ['A', 'C#', 'E', 'G', 'B'],
+    'Am9': ['A', 'C', 'E', 'G', 'B'],
+    'Amaj9': ['A', 'C#', 'E', 'G#', 'B'],
+    'B9': ['B', 'D#', 'F#', 'A', 'C#'],
+    'Bm9': ['B', 'D', 'F#', 'A', 'C#'],
+    'Bmaj9': ['B', 'D#', 'F#', 'A#', 'C#'],
+    
+    # Suspended chords
+    'Csus2': ['C', 'D', 'G'],
+    'Csus4': ['C', 'F', 'G'],
+    'Dsus2': ['D', 'E', 'A'],
+    'Dsus4': ['D', 'G', 'A'],
+    'Esus2': ['E', 'F#', 'B'],
+    'Esus4': ['E', 'A', 'B'],
+    'Fsus2': ['F', 'G', 'C'],
+    'Fsus4': ['F', 'Bb', 'C'],
+    'Gsus2': ['G', 'A', 'D'],
+    'Gsus4': ['G', 'C', 'D'],
+    'Asus2': ['A', 'B', 'E'],
+    'Asus4': ['A', 'D', 'E'],
+    'Bsus2': ['B', 'C#', 'F#'],
+    'Bsus4': ['B', 'E', 'F#'],
+    
+    # Diminished chords
+    'Cdim': ['C', 'Eb', 'Gb'],
+    'C#dim': ['C#', 'E', 'G'],
+    'Ddim': ['D', 'F', 'Ab'],
+    'D#dim': ['D#', 'F#', 'A'],
+    'Edim': ['E', 'G', 'Bb'],
+    'Fdim': ['F', 'Ab', 'B'],
+    'F#dim': ['F#', 'A', 'C'],
+    'Gdim': ['G', 'Bb', 'Db'],
+    'G#dim': ['G#', 'B', 'D'],
+    'Adim': ['A', 'C', 'Eb'],
+    'A#dim': ['A#', 'C#', 'E'],
+    'Bdim': ['B', 'D', 'F'],
+    
+    # Augmented chords
+    'Caug': ['C', 'E', 'G#'],
+    'C#aug': ['C#', 'F', 'A'],
+    'Daug': ['D', 'F#', 'A#'],
+    'D#aug': ['D#', 'G', 'B'],
+    'Eaug': ['E', 'G#', 'C'],
+    'Faug': ['F', 'A', 'C#'],
+    'F#aug': ['F#', 'A#', 'D'],
+    'Gaug': ['G', 'B', 'D#'],
+    'G#aug': ['G#', 'C', 'E'],
+    'Aaug': ['A', 'C#', 'F'],
+    'A#aug': ['A#', 'D', 'F#'],
+    'Baug': ['B', 'D#', 'G'],
+}
+
+def main():
+    """Main function to run the application."""
+    print("Hello, World!")
+    print("Welcome to CalHacks 12.0!")
+    print(f"Available chords: {len(CHORDS)}")
+    print("Sample chords:", list(CHORDS.keys())[:10])
+
+if __name__ == "__main__":
+    main()
