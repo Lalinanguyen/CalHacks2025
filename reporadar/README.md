@@ -1,4 +1,4 @@
-# RepoRadar
+# DueDeck
 
 An AI-powered tool that analyzes GitHub repositories with comprehensive code quality insights, security scanning, and repository intelligence.
 
@@ -146,7 +146,7 @@ Prisma schema with:
 
 1. Install dependencies:
 ```bash
-cd reporadar
+cd duedeck
 npm install
 ```
 

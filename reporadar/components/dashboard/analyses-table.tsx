@@ -34,9 +34,9 @@ export function AnalysesTable({ analyses }: AnalysesTableProps) {
       case 'complete':
         return <Badge className="bg-green-500">Complete</Badge>
       case 'analyzing':
-        return <Badge className="bg-blue-500">Analyzing</Badge>
+        return <Badge className="bg-orange-500">Analyzing</Badge>
       case 'generating':
-        return <Badge className="bg-purple-500">Generating</Badge>
+        return <Badge className="bg-orange-600">Generating</Badge>
       case 'queued':
         return <Badge className="bg-gray-500">Queued</Badge>
       case 'failed':

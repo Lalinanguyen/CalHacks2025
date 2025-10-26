@@ -7,7 +7,7 @@ export function Pricing() {
     {
       name: 'Free',
       price: '$0',
-      description: 'Perfect for trying out RepoRadar',
+      description: 'Perfect for trying out DueDeck',
       features: [
         '1 repository analysis',
         'Basic due diligence report',
@@ -71,13 +71,13 @@ export function Pricing() {
               key={index}
               className={`relative ${
                 plan.highlighted
-                  ? 'border-blue-600 border-2 shadow-xl scale-105'
+                  ? 'border-orange-600 border-2 shadow-xl scale-105'
                   : 'border-2'
               }`}
             >
               {plan.highlighted && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <Badge className="bg-blue-600 text-white px-4 py-1">
+                  <Badge className="bg-orange-600 text-white px-4 py-1">
                     Most Popular
                   </Badge>
                 </div>
@@ -119,7 +119,7 @@ export function Pricing() {
                 </ul>
 
                 <Button
-                  className="w-full"
+                  className={`w-full ${plan.highlighted ? 'bg-orange-600 hover:bg-orange-700' : ''}`}
                   variant={plan.highlighted ? 'default' : 'outline'}
                   size="lg"
                 >

@@ -4,21 +4,21 @@ export function HowItWorks() {
       number: '1',
       title: 'Paste GitHub URL',
       description: 'Simply enter any public GitHub repository URL into our analysis tool.',
-      color: 'bg-blue-100 text-blue-600',
+      color: 'bg-orange-100 text-orange-600',
     },
     {
       number: '2',
       title: 'AI Analysis Begins',
       description:
         'Our AI agents analyze code quality, security, architecture, and team dynamics in real-time.',
-      color: 'bg-green-100 text-green-600',
+      color: 'bg-orange-100 text-orange-600',
     },
     {
       number: '3',
       title: 'Reports Generated',
       description:
         'Within 5 minutes, receive a comprehensive report, pitch deck, and voice overview.',
-      color: 'bg-purple-100 text-purple-600',
+      color: 'bg-orange-100 text-orange-600',
     },
     {
       number: '4',
@@ -58,7 +58,7 @@ export function HowItWorks() {
         {/* Progress Line */}
         <div className="hidden md:block relative -mt-[280px] mb-[280px]">
           <div className="absolute top-8 left-[12.5%] right-[12.5%] h-1 bg-gray-200">
-            <div className="h-full bg-gradient-to-r from-blue-600 via-green-600 to-purple-600 w-full"></div>
+            <div className="h-full bg-gradient-to-r from-orange-600 to-orange-500 w-full"></div>
           </div>
         </div>
       </div>

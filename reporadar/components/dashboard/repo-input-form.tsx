@@ -80,7 +80,7 @@ export function RepoInputForm() {
             )}
           </div>
 
-          <Button type="submit" disabled={isSubmitting} className="w-full">
+          <Button type="submit" disabled={isSubmitting} className="w-full bg-orange-600 hover:bg-orange-700">
             {isSubmitting ? 'Starting Analysis...' : 'Start Analysis'}
           </Button>
 

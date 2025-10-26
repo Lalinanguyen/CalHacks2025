@@ -5,45 +5,38 @@ import { Button } from '@/components/ui/button'
 
 export function Navigation() {
   return (
-    <nav className="border-b bg-white/50 backdrop-blur-sm sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+    <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
+          <Link href="/" className="flex items-center gap-2">
+            <div className="h-8 w-8 bg-orange-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg">R</span>
             </div>
-            <span className="font-bold text-xl">RepoRadar</span>
+            <span className="font-bold text-xl text-gray-900">DueDeck</span>
           </Link>
 
           {/* Navigation Links */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center gap-8">
             <Link
               href="/dashboard"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
+              className="text-gray-600 hover:text-orange-600 transition-colors"
             >
               Dashboard
             </Link>
             <Link
               href="/#pricing"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
+              className="text-gray-600 hover:text-orange-600 transition-colors"
             >
               Pricing
             </Link>
             <Link
               href="/#how-it-works"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
+              className="text-gray-600 hover:text-orange-600 transition-colors"
             >
               How It Works
             </Link>
-          </div>
-
-          {/* Auth Buttons */}
-          <div className="flex items-center space-x-4">
-            <Button variant="ghost" asChild>
-              <Link href="/auth/signin">Sign In</Link>
-            </Button>
-            <Button asChild>
+            <Button className="bg-orange-600 hover:bg-orange-700 text-white" asChild>
               <Link href="/auth/signup">Get Started</Link>
             </Button>
           </div>
