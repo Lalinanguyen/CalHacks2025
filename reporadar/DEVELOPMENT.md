@@ -2,7 +2,7 @@
 
 ## Current Status
 
-RepoRadar is a fully functional MVP with mock data. The application includes:
+DueDeck is a fully functional MVP with mock data. The application includes:
 - ✅ Landing page with features and pricing
 - ✅ Dashboard for managing analyses
 - ✅ Results page with real-time progress tracking

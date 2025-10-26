@@ -13,7 +13,7 @@ export function Navigation() {
             <div className="h-8 w-8 bg-orange-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg">R</span>
             </div>
-            <span className="font-bold text-xl text-gray-900">RepoRadar</span>
+            <span className="font-bold text-xl text-gray-900">DueDeck</span>
           </Link>
 
           {/* Navigation Links */}

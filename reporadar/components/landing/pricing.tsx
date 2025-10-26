@@ -7,7 +7,7 @@ export function Pricing() {
     {
       name: 'Free',
       price: '$0',
-      description: 'Perfect for trying out RepoRadar',
+      description: 'Perfect for trying out DueDeck',
       features: [
         '1 repository analysis',
         'Basic due diligence report',

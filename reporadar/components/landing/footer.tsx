@@ -11,7 +11,7 @@ export function Footer() {
               <div className="h-8 w-8 bg-orange-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">R</span>
               </div>
-              <span className="font-bold text-xl text-white">RepoRadar</span>
+              <span className="font-bold text-xl text-white">DueDeck</span>
             </div>
             <p className="text-sm">
               AI-powered repository analysis for smarter investment decisions.
@@ -96,7 +96,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-gray-800 pt-8 text-sm text-center">
-          <p>&copy; {new Date().getFullYear()} RepoRadar. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} DueDeck. All rights reserved.</p>
         </div>
       </div>
     </footer>
