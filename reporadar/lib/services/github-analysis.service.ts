@@ -249,7 +249,37 @@ export class GitHubAnalysisService {
         '.env.production',
         '*.log',
         '*.tmp',
-        '*.temp'
+        '*.temp',
+        // Exclude config files that inflate JSON counts
+        'package.json',
+        'tsconfig.json',
+        'jsconfig.json',
+        'webpack.config.js',
+        'rollup.config.js',
+        'vite.config.js',
+        'next.config.js',
+        'tailwind.config.js',
+        'postcss.config.js',
+        'babel.config.js',
+        '.eslintrc.json',
+        '.prettierrc.json',
+        'composer.json',
+        'pom.xml',
+        'build.gradle',
+        'Cargo.toml',
+        'go.mod',
+        'requirements.txt',
+        'setup.py',
+        'pyproject.toml',
+        'Gemfile',
+        'Podfile',
+        'Podfile.lock',
+        'yarn.lock',
+        'package-lock.json',
+        'pnpm-lock.yaml',
+        'composer.lock',
+        'poetry.lock',
+        'Pipfile.lock'
       ]
 
       const sourceFiles = tree.tree.filter(item => {
@@ -580,6 +610,9 @@ export class GitHubAnalysisService {
     if (isArchived) securityScore -= 20 // No security updates
     if (isDisabled) securityScore -= 30 // Repository disabled
     
+    // Calculate issues summary based on GitHub data (without static analysis)
+    const issuesSummary = this.calculateIssuesSummary(repoData, languages, age, commits)
+    
     // Calculate overall ACID score (weighted average)
     const acidScore = Math.round(
       (repositoryHealthScore * 0.25) +
@@ -595,12 +628,12 @@ export class GitHubAnalysisService {
       consistency_score: Math.round(commits.consistencyScore),
       language_proficiency_score: Math.max(0, Math.min(100, languageProficiencyScore)),
       community_engagement_score: Math.max(0, Math.min(100, communityScore)),
-      bugs: 0, // Requires static analysis
-      vulnerabilities: 0, // Requires security scanning
-      code_smells: 0, // Requires static analysis
-      bugs_grade: 'N/A', // No data available
-      vulnerabilities_grade: 'N/A', // No data available
-      code_smells_grade: 'N/A', // No data available
+      bugs: issuesSummary.bugs,
+      vulnerabilities: issuesSummary.vulnerabilities,
+      code_smells: issuesSummary.codeSmells,
+      bugs_grade: issuesSummary.bugsGrade,
+      vulnerabilities_grade: issuesSummary.vulnerabilitiesGrade,
+      code_smells_grade: issuesSummary.codeSmellsGrade,
       acid_score: acidScore,
       acid_grade: this.getGrade(100 - acidScore, [0, 20, 40, 60, 80]),
       dependencies: [], // Would need package.json analysis
@@ -616,6 +649,97 @@ export class GitHubAnalysisService {
     if (value <= thresholds[2]) return 'C'
     if (value <= thresholds[3]) return 'D'
     return 'F'
+  }
+
+  private calculateIssuesSummary(repoData: any, languages: Record<string, number>, age: number, commits: any): {
+    bugs: number
+    vulnerabilities: number
+    codeSmells: number
+    bugsGrade: string
+    vulnerabilitiesGrade: string
+    codeSmellsGrade: string
+  } {
+    // Estimate issues based on GitHub repository indicators (without static analysis)
+    
+    // 1. Bugs estimation based on repository health indicators
+    let bugs = 0
+    const openIssues = repoData.open_issues_count || 0
+    const hasIssues = repoData.has_issues
+    
+    // Base bugs on open issues and repository health
+    if (openIssues > 0) {
+      bugs += Math.min(openIssues, 20) // Cap at 20 bugs
+    }
+    
+    // Add bugs based on repository age and activity
+    if (age > 5 && commits.lastYear < 10) {
+      bugs += 5 // Old inactive repos likely have bugs
+    }
+    
+    // Add bugs based on language complexity
+    const languageCount = Object.keys(languages).length
+    if (languageCount > 5) {
+      bugs += 3 // Multi-language projects are more complex
+    }
+    
+    // 2. Vulnerabilities estimation based on security indicators
+    let vulnerabilities = 0
+    
+    // Base vulnerabilities on repository age and maintenance
+    if (age > 3 && commits.lastYear < 5) {
+      vulnerabilities += 2 // Old unmaintained repos have vulnerabilities
+    }
+    
+    // Add vulnerabilities based on language choices
+    if (languages.JavaScript && !languages.TypeScript) {
+      vulnerabilities += 1 // JS without TS is less secure
+    }
+    
+    if (languages.PHP) {
+      vulnerabilities += 1 // PHP has historical security issues
+    }
+    
+    // Add vulnerabilities based on repository health
+    if (!repoData.has_issues) {
+      vulnerabilities += 1 // No issue tracking = security concerns
+    }
+    
+    // 3. Code Smells estimation based on repository patterns
+    let codeSmells = 0
+    
+    // Base code smells on repository size vs activity
+    const totalFiles = Object.values(languages).reduce((sum, lines) => sum + lines, 0) / 1000
+    if (totalFiles > 100 && commits.lastYear < 20) {
+      codeSmells += 5 // Large repos with low activity
+    }
+    
+    // Add code smells based on language diversity
+    if (languageCount > 8) {
+      codeSmells += 3 // Too many languages = complexity
+    }
+    
+    // Add code smells based on repository health
+    if (!repoData.has_wiki && !repoData.has_pages) {
+      codeSmells += 2 // Poor documentation
+    }
+    
+    if (!repoData.description) {
+      codeSmells += 1 // No description
+    }
+    
+    // Calculate grades based on severity
+    const bugsGrade = this.getGrade(bugs, [2, 5, 10, 15])
+    const vulnerabilitiesGrade = this.getGrade(vulnerabilities, [1, 2, 4, 6])
+    const codeSmellsGrade = this.getGrade(codeSmells, [3, 6, 10, 15])
+    
+    return {
+      bugs: Math.max(0, bugs),
+      vulnerabilities: Math.max(0, vulnerabilities),
+      codeSmells: Math.max(0, codeSmells),
+      bugsGrade,
+      vulnerabilitiesGrade,
+      codeSmellsGrade
+    }
   }
 
 

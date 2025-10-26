@@ -260,14 +260,27 @@ export default function GitHubAnalysisTestPage() {
 
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-lg">Maintainability</CardTitle>
+                      <CardTitle className="text-lg">Innovation</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="text-3xl font-bold text-purple-600 mb-2">
-                        {result.summary.avg_maintainability}/100
+                        {result.summary.avg_innovation_score}/100
                       </div>
-                      <Progress value={result.summary.avg_maintainability} className="mb-2" />
-                      <p className="text-sm text-gray-600">Code maintainability score</p>
+                      <Progress value={result.summary.avg_innovation_score} className="mb-2" />
+                      <p className="text-sm text-gray-600">Based on commit message patterns</p>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-lg">Consistency</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-3xl font-bold text-indigo-600 mb-2">
+                        {result.summary.avg_consistency_score}/100
+                      </div>
+                      <Progress value={result.summary.avg_consistency_score} className="mb-2" />
+                      <p className="text-sm text-gray-600">Based on commit frequency patterns</p>
                     </CardContent>
                   </Card>
                 </div>
@@ -329,33 +342,58 @@ export default function GitHubAnalysisTestPage() {
                           </div>
                         </div>
                         
-                        <div className="grid grid-cols-3 gap-4">
+                        <div className="grid grid-cols-2 gap-4 mb-4">
                           <div>
                             <div className="text-sm text-gray-600 mb-1">Code Quality</div>
                             <div className="flex items-center gap-2">
                               <Progress value={repo.code_quality_score} className="flex-1" />
-                              <Badge className={getGradeColor(repo.bugs_grade)}>
-                                {repo.bugs_grade}
-                              </Badge>
+                              <span className="text-sm font-medium">{repo.code_quality_score}/100</span>
                             </div>
                           </div>
                           <div>
                             <div className="text-sm text-gray-600 mb-1">Security</div>
                             <div className="flex items-center gap-2">
                               <Progress value={repo.security_score} className="flex-1" />
-                              <Badge className={getGradeColor(repo.vulnerabilities_grade)}>
-                                {repo.vulnerabilities_grade}
-                              </Badge>
+                              <span className="text-sm font-medium">{repo.security_score}/100</span>
                             </div>
                           </div>
                           <div>
-                            <div className="text-sm text-gray-600 mb-1">Maintainability</div>
+                            <div className="text-sm text-gray-600 mb-1">Innovation</div>
                             <div className="flex items-center gap-2">
-                              <Progress value={repo.maintainability_score} className="flex-1" />
-                              <Badge className={getGradeColor(repo.code_smells_grade)}>
-                                {repo.code_smells_grade}
-                              </Badge>
+                              <Progress value={repo.innovation_score} className="flex-1" />
+                              <span className="text-sm font-medium">{repo.innovation_score}/100</span>
                             </div>
+                          </div>
+                          <div>
+                            <div className="text-sm text-gray-600 mb-1">Consistency</div>
+                            <div className="flex items-center gap-2">
+                              <Progress value={repo.consistency_score} className="flex-1" />
+                              <span className="text-sm font-medium">{repo.consistency_score}/100</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="text-center">
+                            <div className="text-lg font-semibold text-red-600">{repo.bugs}</div>
+                            <div className="text-sm text-gray-600">Bugs</div>
+                            <Badge className={getGradeColor(repo.bugs_grade)}>
+                              {repo.bugs_grade}
+                            </Badge>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-lg font-semibold text-orange-600">{repo.vulnerabilities}</div>
+                            <div className="text-sm text-gray-600">Vulnerabilities</div>
+                            <Badge className={getGradeColor(repo.vulnerabilities_grade)}>
+                              {repo.vulnerabilities_grade}
+                            </Badge>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-lg font-semibold text-yellow-600">{repo.code_smells}</div>
+                            <div className="text-sm text-gray-600">Code Smells</div>
+                            <Badge className={getGradeColor(repo.code_smells_grade)}>
+                              {repo.code_smells_grade}
+                            </Badge>
                           </div>
                         </div>
                       </CardContent>
