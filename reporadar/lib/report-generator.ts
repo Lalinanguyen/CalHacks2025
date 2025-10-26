@@ -22,7 +22,10 @@ export interface GeneratedReport {
 }
 
 /**
- * Generate comprehensive report from analysis data
+ * Create a complete investment analysis report from the provided analysis data.
+ *
+ * @param data - The input AnalysisData containing technical, market, and founder analyses
+ * @returns A GeneratedReport containing formatted technical, market, and founder sections, an overall score and investment grade, a recommendation, key takeaways, and next steps
  */
 export function generateReport(data: AnalysisData): GeneratedReport {
   const technicalSection = formatTechnical(data.technical);
@@ -47,7 +50,12 @@ export function generateReport(data: AnalysisData): GeneratedReport {
 }
 
 /**
- * Format technical analysis into report section
+ * Produces a ReportSection summarizing the technical analysis of a project.
+ *
+ * Uses the provided technical metrics to derive highlights, concerns, a numeric score, a one-line summary, and a details string describing languages, architecture, and documentation.
+ *
+ * @param technical - TechnicalAnalysis containing code quality, commit activity, contributor count, test coverage, languages, architecture, and documentation
+ * @returns A ReportSection with fields: score, summary, highlights, concerns, and details
  */
 function formatTechnical(technical: TechnicalAnalysis): ReportSection {
   const highlights: string[] = [];
@@ -98,7 +106,10 @@ function formatTechnical(technical: TechnicalAnalysis): ReportSection {
 }
 
 /**
- * Format market analysis into report section
+ * Create a ReportSection summarizing the provided market analysis.
+ *
+ * @param market - Market analysis data used to derive highlights, concerns, and a numeric market score
+ * @returns A ReportSection containing the market score, a concise summary of market potential, arrays of highlights and concerns, and a details string with target audience and trend count.
  */
 function formatMarket(market: MarketAnalysis): ReportSection {
   const highlights: string[] = [];
@@ -138,7 +149,10 @@ function formatMarket(market: MarketAnalysis): ReportSection {
 }
 
 /**
- * Format founder analysis into report section
+ * Create a report section that summarizes a founder's credentials, experience, expertise, and credibility.
+ *
+ * @param founder - FounderAnalysis object whose credibility, experience, previousCompanies, expertise, and education are used to derive the section
+ * @returns A ReportSection containing a numeric score (from founder.credibility), a one-line summary of credential strength, arrays of highlights and concerns, and a brief details string
  */
 function formatFounder(founder: FounderAnalysis): ReportSection {
   const highlights: string[] = [];
@@ -178,7 +192,9 @@ function formatFounder(founder: FounderAnalysis): ReportSection {
 }
 
 /**
- * Calculate overall score from all analysis data
+ * Computes the overall investment score from the provided analysis data.
+ *
+ * @returns The overall score as an integer between 0 and 100 (rounded to the nearest whole number).
  */
 function calculateScore(data: AnalysisData): number {
   const technicalScore = calculateTechnicalScore(data.technical);
@@ -194,7 +210,12 @@ function calculateScore(data: AnalysisData): number {
 }
 
 /**
- * Calculate technical score
+ * Compute a technical evaluation score from the provided technical metrics.
+ *
+ * Uses code quality, number of contributors, test coverage, and issue resolution to produce a weighted score between 0 and 100.
+ *
+ * @param technical - TechnicalAnalysis containing codeQuality, contributors, optional testCoverage, and issues used to derive the score
+ * @returns An integer between 0 and 100 representing the technical score
  */
 function calculateTechnicalScore(technical: TechnicalAnalysis): number {
   let score = 0;
@@ -225,7 +246,13 @@ function calculateTechnicalScore(technical: TechnicalAnalysis): number {
 }
 
 /**
- * Calculate market score
+ * Compute a market attractiveness score from market analysis data.
+ *
+ * The score is a weighted aggregate based on market size, number of opportunities,
+ * number of risks, and competitor count.
+ *
+ * @param market - Market analysis used to derive contributions from `marketSize`, `opportunities`, `risks`, and `competitors`
+ * @returns The final market score as an integer between 0 and 100 (higher indicates a stronger market)
  */
 function calculateMarketScore(market: MarketAnalysis): number {
   let score = 40; // Base score
@@ -259,7 +286,10 @@ function calculateMarketScore(market: MarketAnalysis): number {
 }
 
 /**
- * Calculate investment grade
+ * Map a numeric score (0–100) to an investment grade.
+ *
+ * @param score - Overall numeric score expected in the range 0 to 100
+ * @returns `'A+'` if score is >= 95, `'A'` if >= 85, `'B+'` if >= 80, `'B'` if >= 70, `'C+'` if >= 65, `'C'` if >= 60, `'D'` if >= 50, `'F'` otherwise
  */
 function calculateGrade(score: number): 'A+' | 'A' | 'B+' | 'B' | 'C+' | 'C' | 'D' | 'F' {
   if (score >= 95) return 'A+';
@@ -273,7 +303,14 @@ function calculateGrade(score: number): 'A+' | 'A' | 'B+' | 'B' | 'C+' | 'C' | '
 }
 
 /**
- * Generate overall recommendation
+ * Produce a recommendation message based on the overall investment score.
+ *
+ * @param overallScore - Overall numeric score (0–100) used to determine recommendation tier
+ * @returns A recommendation message corresponding to the score:
+ * - `>= 85`: "Strong investment opportunity..." 
+ * - `>= 70`: "Good investment opportunity..."
+ * - `>= 55`: "Moderate investment opportunity..."
+ * - `< 55`: "Weak investment opportunity..."
  */
 function generateRecommendation(data: AnalysisData, overallScore: number): string {
   if (overallScore >= 85) {
@@ -288,7 +325,14 @@ function generateRecommendation(data: AnalysisData, overallScore: number): strin
 }
 
 /**
- * Generate key takeaways
+ * Produce concise takeaways summarizing the technical, market, and founder assessments.
+ *
+ * Constructs an array of short, human-readable takeaways derived from the provided
+ * AnalysisData: a technical statement based on code quality, an optional market
+ * opportunity summary, and a founder statement based on founder credibility.
+ *
+ * @param data - The analysis input containing `technical`, `market`, and `founder` sections
+ * @returns An array of takeaway strings highlighting key points from each assessment area
  */
 function generateKeyTakeaways(data: AnalysisData): string[] {
   const takeaways: string[] = [];
@@ -316,7 +360,11 @@ function generateKeyTakeaways(data: AnalysisData): string[] {
 }
 
 /**
- * Generate next steps based on analysis
+ * Suggests actionable next steps for due diligence or improvement based on the analysis and overall score.
+ *
+ * @param data - AnalysisData used to determine technical and market conditions that influence suggested steps (e.g., test coverage and market risks)
+ * @param overallScore - Aggregate score that drives tiered recommendations (thresholds: >=70 for active due diligence, otherwise improvement-focused)
+ * @returns An array of recommended next steps as human-readable strings
  */
 function generateNextSteps(data: AnalysisData, overallScore: number): string[] {
   const steps: string[] = [];

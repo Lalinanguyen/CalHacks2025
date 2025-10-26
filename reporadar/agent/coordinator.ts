@@ -52,8 +52,13 @@ export interface AnalysisData {
 }
 
 /**
- * Central orchestration agent that coordinates MCP servers
- * for comprehensive startup analysis
+ * Coordinate MCP services to produce a unified startup analysis and generate a final report.
+ *
+ * @param repoUrl - The repository URL to analyze
+ * @param founderName - The founder's full name to profile
+ * @param productName - The product name to research in the market
+ * @returns An object with `success`, `timestamp`, `input` (echoed parameters), `data` (aggregated analyses), and `report`
+ * @throws Error When analysis fails; the error message includes the underlying failure reason
  */
 export async function analyzeStartup(
   repoUrl: string,
@@ -106,7 +111,12 @@ export async function analyzeStartup(
 }
 
 /**
- * Analyze a startup with retry logic for robustness
+ * Perform a startup analysis with retry attempts using exponential backoff.
+ *
+ * @param input - AnalysisInput containing `repoUrl`, `founderName`, and `productName`
+ * @param maxRetries - Maximum number of attempts before failing (default: 3)
+ * @returns The aggregated analysis result object containing `success`, `timestamp`, `input`, `data` (technical, market, and founder analyses), and `report`
+ * @throws Error when analysis fails after `maxRetries` attempts; message includes the last error message
  */
 export async function analyzeStartupWithRetry(
   input: AnalysisInput,

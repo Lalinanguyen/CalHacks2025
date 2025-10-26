@@ -13,7 +13,15 @@ export interface MarketAnalysisResult {
 }
 
 /**
- * Connect to the Market Intelligence MCP server
+ * Create and return a Market Intelligence MCP client with methods for market research, competitor analysis, trend retrieval, and disconnection.
+ *
+ * @returns An object exposing:
+ *  - `research(productName: string): Promise<MarketAnalysisResult>` — market analysis for the given product.
+ *  - `analyzeCompetitors(productName: string, competitors: string[]): Promise<any>` — competitor analysis for the given product and competitor list.
+ *  - `getTrends(industry: string): Promise<any>` — market trends for the specified industry.
+ *  - `disconnect(): Promise<void>` — close the MCP client connection.
+ *
+ * @throws Error If the initial connection setup to the Market MCP server fails.
  */
 export async function connectMarketMCP() {
   const mcpUrl = process.env.MARKET_MCP_URL || "http://localhost:3002";
@@ -160,7 +168,10 @@ export async function connectMarketMCP() {
 }
 
 /**
- * Categorize product type based on name/description
+ * Classifies a product name or short description into a technology category using simple keyword matching.
+ *
+ * @param productName - Product name or short description to classify (case-insensitive)
+ * @returns One of: 'AI/ML', 'FinTech', 'HealthTech', 'B2B SaaS', 'Web3/Crypto', or 'General Technology'
  */
 export function categorizeProduct(productName: string): string {
   const keywords = productName.toLowerCase();

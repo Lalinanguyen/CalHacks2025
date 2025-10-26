@@ -7,10 +7,15 @@ import { connectFounderMCP } from '@/lib/mcp-clients/founder-client';
 export const maxDuration = 60; // 60 seconds timeout for analysis
 
 /**
- * POST /api/analyze
+ * Run a coordinated startup analysis based on JSON input and return the analysis result or a structured error.
  *
- * Main API endpoint for startup analysis
- * Coordinates MCP servers and generates comprehensive reports
+ * Expects the request body to be JSON with `repoUrl`, `founderName`, `productName`, and an optional `useRetry` (defaults to `true`).
+ * - Validates presence of `repoUrl`, `founderName`, and `productName`; responds with 400 if any are missing.
+ * - Validates that `repoUrl` contains `github.com`; responds with 400 if not a GitHub repository.
+ * - When `useRetry` is true, invokes the coordinator path that performs retry logic; otherwise invokes the direct analysis path.
+ *
+ * @param req - Incoming Next.js request whose JSON body contains the analysis inputs
+ * @returns On success, a JSON object with the analysis results and HTTP status 200. On client errors, a JSON object with `success: false` and an `error` message and HTTP status 400. On internal failures, a JSON object with `success: false`, an `error` message, and a `timestamp` with HTTP status 500.
  */
 export async function POST(req: NextRequest) {
   try {
@@ -101,7 +106,9 @@ export async function GET(req: NextRequest) {
 }
 
 /**
- * Check connectivity to all MCP servers
+ * Check connectivity to all MCP servers and return per-server results.
+ *
+ * @returns An object with `github`, `market`, and `founder` fields; each field is either the server's success status object (e.g., `status: 'connected'`, server name, timestamp) or an error object with `status: 'error'` and an `error` reason.
  */
 async function checkMCPServers() {
   const checks = await Promise.allSettled([
@@ -118,7 +125,11 @@ async function checkMCPServers() {
 }
 
 /**
- * Check individual server connectivity
+ * Verifies connectivity to a single MCP server by invoking the provided connection function.
+ *
+ * @param name - Identifier for the server being checked
+ * @param connectFn - Function that attempts to establish a connection and resolves on success
+ * @returns An object with connection `status` ("connected" or "disconnected"), the server `name`, an ISO `timestamp`, and, when disconnected, an `error` message describing the failure
  */
 async function checkServer(name: string, connectFn: () => Promise<any>) {
   try {
@@ -139,8 +150,11 @@ async function checkServer(name: string, connectFn: () => Promise<any>) {
 }
 
 /**
- * Helper function to save analysis results to database
- * TODO: Implement database integration
+ * Persists analysis results to a database (placeholder).
+ *
+ * Intended to store the analysis record including input metadata, per-section scores, overall score, recommendation, and raw analysis data. Currently this function is a no-op that logs a TODO and does not perform any persistence.
+ *
+ * @param results - Analysis payload expected to contain `input` (e.g., `repoUrl`, `founderName`, `productName`), `report` (e.g., `sections` with scores, `overallScore`, `recommendation`), and raw `data`
  */
 async function saveAnalysisToDatabase(results: any) {
   // This would integrate with Prisma to save results

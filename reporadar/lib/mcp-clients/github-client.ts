@@ -19,7 +19,15 @@ export interface GitHubAnalysisResult {
 }
 
 /**
- * Connect to the GitHub MCP server for repository analysis
+ * Establishes a connection to the GitHub MCP server and returns helper methods for repository analysis.
+ *
+ * Provides callable helpers to analyze a repository, fetch repository metrics, and disconnect the MCP client.
+ *
+ * @returns An object with:
+ * - `analyze(repoUrl: string)`: returns a `GitHubAnalysisResult` for the given repository.
+ * - `getMetrics(repoUrl: string)`: returns the raw metrics result from the MCP server.
+ * - `disconnect()`: closes the MCP client connection.
+ * @throws Error if the MCP connection cannot be established.
  */
 export async function connectGitHubMCP() {
   const mcpUrl = process.env.GITHUB_MCP_URL || "http://localhost:3001";
@@ -134,7 +142,10 @@ export async function connectGitHubMCP() {
 }
 
 /**
- * Parse GitHub repository URL to extract owner and repo name
+ * Extract the owner and repository name from a GitHub repository URL.
+ *
+ * @param url - A string containing `github.com/owner/repo`, optionally ending with `.git`
+ * @returns The extracted `{ owner, repo }` when the URL matches common GitHub web formats, or `null` if no match is found
  */
 export function parseGitHubUrl(url: string): { owner: string; repo: string } | null {
   const patterns = [
