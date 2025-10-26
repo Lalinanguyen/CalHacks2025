@@ -17,7 +17,13 @@ export interface FounderAnalysisResult {
 }
 
 /**
- * Connect to the Founder Research MCP server
+ * Create and connect an MCP client for founder research.
+ *
+ * @returns An object exposing methods to query founder data:
+ *  - `profile(founderName)` — returns a `FounderAnalysisResult` with the researched founder profile (may fall back to mock data on error).
+ *  - `getVentures(founderName)` — returns the founder's previous ventures data.
+ *  - `getNetworkStrength(founderName)` — returns an analysis of the founder's network strength.
+ *  - `disconnect()` — closes the MCP client connection.
  */
 export async function connectFounderMCP() {
   const mcpUrl = process.env.FOUNDER_MCP_URL || "http://localhost:3003";
@@ -170,7 +176,11 @@ export async function connectFounderMCP() {
 }
 
 /**
- * Calculate founder experience score
+ * Computes a composite experience score for a founder between 0 and 100.
+ *
+ * @param years - Total years of professional experience
+ * @param previousCompanies - Array of previous employer names
+ * @returns A number from 0 to 100 representing the founder's experience score
  */
 export function calculateExperienceScore(years: number, previousCompanies: string[]): number {
   let score = 0;
@@ -195,7 +205,10 @@ export function calculateExperienceScore(years: number, previousCompanies: strin
 }
 
 /**
- * Validate social media URLs
+ * Check that any provided LinkedIn, Twitter (or X), and GitHub URLs match expected provider formats.
+ *
+ * @param urls - Object with optional `linkedin`, `twitter`, and `github` URL strings to validate. Each provided URL must start with `http://` or `https://` and match the provider's canonical host and path prefix (e.g., `linkedin.com/in/`, `twitter.com/` or `x.com/`, `github.com/`).
+ * @returns `true` if all provided URLs conform to their provider patterns, `false` otherwise.
  */
 export function validateSocialUrls(urls: {
   linkedin?: string;
