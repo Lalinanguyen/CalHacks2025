@@ -1,5 +1,3 @@
-#export GITHUB_TOKEN=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
-
 #!/usr/bin/env python3
 """
 Comprehensive GitHub Repository and Profile Scraper
