@@ -15,8 +15,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "RepoRadar - GitHub Analysis",
-  description: "AI-powered technical due diligence reports for GitHub repositories",
+  title: "DueDeck",
+  description: "Due Diligence Transformed",
 };
 
 export default function RootLayout({
