@@ -1,0 +1,35 @@
+{
+  "name": "reporadar-github-analysis-mcp",
+  "version": "1.0.0",
+  "description": "MCP Server for GitHub Analysis - RepoRadar Technical Due Diligence",
+  "main": "dist/mcp-server.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/mcp-server.js",
+    "dev": "tsx src/mcp-server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mcp",
+    "github",
+    "analysis",
+    "due-diligence",
+    "reporadar",
+    "claude"
+  ],
+  "author": "RepoRadar Team",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.4.0",
+    "@octokit/rest": "^20.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
