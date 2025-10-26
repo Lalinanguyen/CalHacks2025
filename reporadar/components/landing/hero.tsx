@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useRouter } from 'next/navigation'
+import { DocumentSwapAnimation } from './document-swap-animation'
+import { Check } from 'lucide-react'
 
 export function Hero() {
   const [repoUrl, setRepoUrl] = useState('')
@@ -28,95 +30,66 @@ export function Hero() {
   }
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-blue-50 to-white">
-      <div className="container mx-auto max-w-5xl text-center">
-        {/* Headline */}
-        <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-          Transform any GitHub repo into an{' '}
-          <span className="text-blue-600">investor-ready package</span> in 5 minutes
-        </h1>
+    <section className="bg-gradient-to-br from-white to-orange-50 py-20 md:py-32">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row items-center gap-12">
+          {/* Content */}
+          <div className="flex-1 text-center md:text-left">
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+              Transform any GitHub repo into an{' '}
+              <span className="text-orange-600">investor-ready package</span> in 5 minutes
+            </h1>
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl">
+              AI-powered repository analysis with code quality insights, security scanning, and comprehensive intelligence.
+              Make better technical decisions faster.
+            </p>
 
-        {/* Subheadline */}
-        <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto">
-          AI-powered repository analysis with code quality insights, security scanning, and comprehensive intelligence.
-          Make better technical decisions faster.
-        </p>
+            {/* GitHub URL Input */}
+            <div className="mb-8">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Input
+                  type="url"
+                  placeholder="https://github.com/username/repository"
+                  value={repoUrl}
+                  onChange={(e) => setRepoUrl(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
+                  className="flex-1 h-14 text-lg"
+                  disabled={isValidating}
+                />
+                <Button
+                  size="lg"
+                  onClick={handleAnalyze}
+                  disabled={!repoUrl || isValidating}
+                  className="h-14 px-8 text-lg bg-orange-600 hover:bg-orange-700"
+                >
+                  {isValidating ? 'Validating...' : 'Analyze Repository'}
+                </Button>
+              </div>
+              <p className="text-sm text-gray-500 mt-3">
+                Free tier includes 1 analysis. No credit card required.
+              </p>
+            </div>
 
-        {/* GitHub URL Input */}
-        <div className="max-w-2xl mx-auto mb-8">
-          <div className="flex gap-4">
-            <Input
-              type="url"
-              placeholder="https://github.com/username/repository"
-              value={repoUrl}
-              onChange={(e) => setRepoUrl(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
-              className="flex-1 h-14 text-lg"
-              disabled={isValidating}
-            />
-            <Button
-              size="lg"
-              onClick={handleAnalyze}
-              disabled={!repoUrl || isValidating}
-              className="h-14 px-8 text-lg"
-            >
-              {isValidating ? 'Validating...' : 'Analyze Repository'}
-            </Button>
+            {/* Trust Indicators */}
+            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-6 text-gray-600">
+              <div className="flex items-center gap-2">
+                <Check className="text-green-600" size={20} />
+                <span>No credit card required</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="text-green-600" size={20} />
+                <span>5-minute analysis</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="text-green-600" size={20} />
+                <span>Investor-ready reports</span>
+              </div>
+            </div>
           </div>
-          <p className="text-sm text-gray-500 mt-3">
-            Free tier includes 1 analysis. No credit card required.
-          </p>
-        </div>
 
-        {/* Trust Indicators */}
-        <div className="flex items-center justify-center gap-8 text-sm text-gray-600">
-          <div className="flex items-center gap-2">
-            <svg
-              className="w-5 h-5 text-green-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-            <span>No credit card required</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <svg
-              className="w-5 h-5 text-green-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-            <span>5-minute analysis</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <svg
-              className="w-5 h-5 text-green-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-            <span>Investor-ready reports</span>
+          {/* Document Animation */}
+          <div className="flex-1 flex justify-center">
+            <DocumentSwapAnimation />
           </div>
         </div>
       </div>

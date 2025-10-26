@@ -54,7 +54,7 @@ export function ReportViewer({ report, analysis }: ReportViewerProps) {
                   href={analysis.repoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
+                  className="text-orange-600 hover:underline"
                 >
                   {analysis.repoUrl}
                 </a>
@@ -77,7 +77,7 @@ export function ReportViewer({ report, analysis }: ReportViewerProps) {
                 </svg>
                 Download Markdown
               </Button>
-              <Button onClick={handleDownloadPDF}>
+              <Button onClick={handleDownloadPDF} className="bg-orange-600 hover:bg-orange-700">
                 <svg
                   className="w-4 h-4 mr-2"
                   fill="none"
@@ -99,15 +99,15 @@ export function ReportViewer({ report, analysis }: ReportViewerProps) {
         <CardContent>
           <div className="grid grid-cols-3 gap-6">
             {/* Code Quality Score */}
-            <div className="bg-blue-50 rounded-lg p-4">
+            <div className="bg-orange-50 rounded-lg p-4">
               <div className="text-sm text-gray-600 mb-1">Code Quality Score</div>
-              <div className="text-3xl font-bold text-blue-600">
+              <div className="text-3xl font-bold text-orange-600">
                 {analysis.codeQualityScore || 0}/100
               </div>
               <div className="mt-2">
-                <div className="w-full bg-blue-200 rounded-full h-2">
+                <div className="w-full bg-orange-200 rounded-full h-2">
                   <div
-                    className="bg-blue-600 h-2 rounded-full"
+                    className="bg-orange-600 h-2 rounded-full"
                     style={{ width: `${analysis.codeQualityScore || 0}%` }}
                   />
                 </div>
@@ -133,9 +133,9 @@ export function ReportViewer({ report, analysis }: ReportViewerProps) {
             </div>
 
             {/* Completion Time */}
-            <div className="bg-purple-50 rounded-lg p-4">
+            <div className="bg-orange-50 rounded-lg p-4">
               <div className="text-sm text-gray-600 mb-1">Analysis Time</div>
-              <div className="text-lg font-semibold text-purple-600">
+              <div className="text-lg font-semibold text-orange-600">
                 {analysis.completedAt
                   ? new Date(analysis.completedAt).toLocaleDateString('en-US', {
                       month: 'short',
