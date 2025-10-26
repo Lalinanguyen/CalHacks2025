@@ -1,9 +1,11 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useSession } from "../contexts/SessionContext";
 
 export default function Home() {
+  const router = useRouter();
   const {
     audioBlob,
     audioUrl,
@@ -17,7 +19,7 @@ export default function Home() {
     getAudioRef,
     setAudioRef,
   } = useSession();
-  
+
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
@@ -170,7 +172,7 @@ export default function Home() {
           </button>
           
           <button
-            onClick={() => {}}
+            onClick={() => router.push('/chat')}
             className="px-6 py-2 rounded-full font-medium bg-green-500 text-white hover:bg-green-600 transition-colors"
           >
             Next
