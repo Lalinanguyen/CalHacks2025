@@ -27,6 +27,7 @@ A specialized client that:
 - Intelligent fallback responses (keyword-based)
 - Suggested questions based on analysis results
 - Ready for LLM API integration (OpenAI, Anthropic, etc.)
+- Defensive programming with optional chaining for robustness
 
 ### 2. API Endpoint
 **File:** `app/api/chat/route.ts`
@@ -42,7 +43,28 @@ RESTful API endpoints:
 - Returns chatbot status
 - Provides initial suggested questions
 
-### 3. UI Component
+### 3. UI Components
+
+#### Floating Chat Widget (NEW!)
+**File:** `components/chat/floating-chat-widget.tsx`
+
+A beautiful floating chat widget that appears in the bottom-right corner of every page:
+
+**Features:**
+- 🎯 Always accessible via floating button
+- 💬 Click to open/close chat
+- 📌 Minimize/maximize functionality
+- 🔔 Unread message counter with notifications
+- ✨ Smooth animations and transitions
+- 📱 Responsive design (400px width, 600px height)
+- 🎨 Follows your app's theme
+- 💡 Shows suggested questions for quick interaction
+- 🔄 Auto-scrolling messages
+- ⌨️ Keyboard support (Enter to send)
+
+**Integrated in:** `app/layout.tsx` - Available on all pages!
+
+#### Full Chat Component
 **File:** `components/chat/market-fit-chatbot.tsx`
 
 A full-featured React chat interface with:

@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation'
 import { Navigation } from '@/components/landing/navigation'
 import { AnalysisStatus } from '@/components/dashboard/analysis-status'
 import { ReportViewer } from '@/components/results/report-viewer'
+import { FloatingChatWidget } from '@/components/chat/floating-chat-widget'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
@@ -192,6 +193,19 @@ export default function ResultsPage() {
           )}
         </div>
       </div>
+
+      {/* Show chatbot only when analysis is complete */}
+      {analysis.status === 'complete' && (
+        <FloatingChatWidget
+          analysisContext={{
+            technical: {
+              codeQualityScore: analysis.codeQualityScore,
+              securityRating: analysis.securityRating,
+            },
+            report: report,
+          }}
+        />
+      )}
     </div>
   )
 }
